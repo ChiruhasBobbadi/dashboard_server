@@ -7,10 +7,10 @@ const seq = require('../util/database')
 
 const light =seq.define('light',{
     id:{
-        type:Sequelize.INTEGER,
-        autoIncrement:true,
-        allowNull:false,
-        primaryKey:true
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        allowNull: false,
+        primaryKey: true
     },
     name:{
         type:Sequelize.STRING,
@@ -19,7 +19,7 @@ const light =seq.define('light',{
         type:Sequelize.STRING,
         allowNull:false
     },
-    maker:{
+    manufacturer:{
         type:Sequelize.FLOAT,
         allowNull:false
     },location:{
@@ -35,6 +35,15 @@ const light =seq.define('light',{
         type:Sequelize.STRING,
         allowNull:false
     },installation_date:{
+        type:Sequelize.DATE,
+        allowNull:false
+    },user_id:{
+        type:Sequelize.INTEGER,
+        allowNull:false
+    },dimensions:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },deployment_date:{
         type:Sequelize.DATE,
         allowNull:false
     }

@@ -7,10 +7,10 @@ const seq = require('../util/database')
 
 const water_meter =seq.define('water_meter',{
     id:{
-        type:Sequelize.INTEGER,
-        autoIncrement:true,
-        allowNull:false,
-        primaryKey:true
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        allowNull: false,
+        primaryKey: true
     },
     name:{
         type:Sequelize.STRING,
@@ -19,8 +19,8 @@ const water_meter =seq.define('water_meter',{
         type:Sequelize.STRING,
         allowNull:false
     },
-    maker:{
-        type:Sequelize.FLOAT,
+    manufacturer:{
+        type:Sequelize.STRING,
         allowNull:false
     },location:{
         type:Sequelize.STRING,
@@ -29,10 +29,26 @@ const water_meter =seq.define('water_meter',{
         type:Sequelize.STRING,
         allowNull:false
     },installation_date:{
-        type:Sequelize.DATE,
+        type:Sequelize.STRING,
         allowNull:false
     },item_weight:{
-        type:Sequelize.FLOAT,
+        type:Sequelize.STRING,
+        allowNull:false
+    },user_id:{
+        type:Sequelize.INTEGER,
+        allowNull:false
+    }, dimensions:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },batteries_included:{
+        type:Sequelize.BOOLEAN,
+        allowNull:false
+    },
+    battery_cell_type:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },installation_date:{
+        type:Sequelize.STRING,
         allowNull:false
     }
 

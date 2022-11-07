@@ -7,10 +7,10 @@ const seq = require('../util/database')
 
 const electricity_meter =seq.define('electricity_meter',{
     id:{
-        type:Sequelize.INTEGER,
-        autoIncrement:true,
-        allowNull:false,
-        primaryKey:true
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        allowNull: false,
+        primaryKey: true
     },
     name:{
         type:Sequelize.STRING,
@@ -18,21 +18,30 @@ const electricity_meter =seq.define('electricity_meter',{
     },model:{
         type:Sequelize.STRING,
         allowNull:false
-    },
-    maker:{
-        type:Sequelize.FLOAT,
-        allowNull:false
     },location:{
         type:Sequelize.STRING,
         allowNull:false
     },amperage_capacity:{
-        type:Sequelize.FLOAT,
+        type:Sequelize.STRING,
         allowNull:false
     },power:{
         type:Sequelize.STRING,
         allowNull:false
     },installation_date:{
-        type:Sequelize.DATE,
+        type:Sequelize.STRING,
+        allowNull:false
+    },dimensions:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },deployment_date: {
+        type:Sequelize.STRING,
+        allowNull:false
+    },installation_method:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },
+    measurement_accuracy:{
+        type:Sequelize.STRING,
         allowNull:false
     }
 

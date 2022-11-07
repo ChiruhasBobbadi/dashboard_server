@@ -5,7 +5,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 const sequelize = require('./util/database')
-
+const device_mgmt = require('./routes/device_mgmt')
 const auth = require('./routes/auth');
 const multer = require('multer');
 const flash = require('connect-flash');
@@ -33,11 +33,13 @@ const store = new MongoDBStore({
     uri:'mongodb://localhost:27017/dashboard' ,
     collection: 'sessions'
 });
+app.use(session({secret: 'my secret', resave: false, saveUninitialized: false, store: store}));
 
 
 
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(flash());
 app.use(express.urlencoded({extended: false}));
 app.use((req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin','*');
@@ -48,6 +50,7 @@ app.use((req,res,next)=>{
 
 
 app.use(auth);
+app.use(device_mgmt);
 
 app.use('/', (req, res) => {
     res.send("Hello friend")

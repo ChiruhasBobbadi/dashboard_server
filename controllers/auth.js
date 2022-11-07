@@ -29,6 +29,8 @@ exports.postLogin =async (req, res, next) => {
    }else{
 
        if(records[0].password == password){
+           req.session.isLoggedIn = true;
+            req.session.userId = records[0].id;
            res.json({"status":200,"message":"authorized","isAdmin":records[0].isAdmin});
        }else{
            res.json({"status":401,"message":"wrong password"});
