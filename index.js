@@ -1,0 +1,83 @@
+
+const express = require('express');
+
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const mongoose = require('mongoose');
+const sequelize = require('./util/database')
+
+const auth = require('./routes/auth');
+const multer = require('multer');
+const flash = require('connect-flash');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+
+const user = require('./model/user');
+const camera = require('./model/camera');
+const ele = require('./model/electricity_meter');
+const fan = require('./model/fan');
+const light = require('./model/light');
+//const sys = require('./model/system_selection');
+const water = require('./model/water_meter');
+const weather = require('./model/weather_sensor');
+
+
+let SERVER_PORT = 4000;
+
+
+
+
+const app = express();
+
+const store = new MongoDBStore({
+    uri:'mongodb://localhost:27017/dashboard' ,
+    collection: 'sessions'
+});
+
+
+
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use((req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*');
+    res.setHeader('Access-Control-Allow-Methods','GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next()
+});
+
+
+app.use(auth);
+
+app.use('/', (req, res) => {
+    res.send("Hello friend")
+});
+
+
+
+
+sequelize.sync().then(res=>{
+    console.log("sql synced");
+    mongoose.connect('mongodb://localhost:27017/dashboard')
+        .then(result => {
+            if (result) {
+
+                console.log("Database connected");
+                console.log(`server started on ${SERVER_PORT} `);
+                app.listen(SERVER_PORT);
+            } else {
+                console.log("failed to connect db ");
+                console.log(result);
+            }
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+}).catch(err=>{
+    console.log(err);
+    console.log("error syncing sql");
+});
+
+
