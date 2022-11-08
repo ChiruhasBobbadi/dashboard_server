@@ -10,6 +10,7 @@ const fan =seq.define('fan',{
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
+        primaryKey: true
     },
     name:{
         type:Sequelize.STRING,
