@@ -3,6 +3,8 @@ const electric_meter = require('../model/electricity_meter');
 
 const water_meter = require('../model/water_meter');
 const light = require('../model/light');
+
+const fan = require('../model/fan')
 exports.deleteDevice = (req,res,next)=>{
 
 }
@@ -21,7 +23,7 @@ exports.addDevice = async(req,res,next)=>{
 
     switch(device){
         case "fan":
-
+           await addFan(req,res,next);
             break;
         case "camera":
             break;
@@ -89,7 +91,6 @@ const addWaterMeter = async (req,res,next)=>{
 const addLight = async(req,res,next)=>{
     const data = req.body.data;
 
-    console.log("light");
     await light.create({
         user_id: req.session.userId,
         name: data.device_name,
@@ -101,7 +102,6 @@ const addLight = async(req,res,next)=>{
         wattage:data.wattage,
         installation_date:data.installation_date,
         deployment_date:data.deployment_date,
-        wattage:data.wattage,
         illumination:data.illumination,
 
     });
@@ -109,4 +109,35 @@ const addLight = async(req,res,next)=>{
         "status":200,
         "message":"success, Light added"
     })
+}
+
+const addFan = async(req,res,next)=>{
+
+    const data = req.body.data;
+
+    await light.create({
+        user_id: req.session.userId,
+        name: data.device_name,
+        model:data.model,
+        dimensions:data.dimensions,
+        location:data.location,
+        manufacturer:data.manufacturer,
+        power:data.power,
+        installation_date:data.installation_date,
+        deployment_date:data.deployment_date,
+        maxSpeed:data.maxSpeed,
+       num_speeds:data.num_speeds,
+
+
+    });
+    res.json({
+        "status":200,
+        "message":"success, Fan added"
+    })
+
+
+}
+
+const addCamera = async(req,res,next)-=>{
+
 }

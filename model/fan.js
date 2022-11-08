@@ -7,10 +7,9 @@ const seq = require('../util/database')
 
 const fan =seq.define('fan',{
     id:{
-        type:Sequelize.INTEGER,
-        autoIncrement:true,
-        allowNull:false,
-        primaryKey:true
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        allowNull: false,
     },
     name:{
         type:Sequelize.STRING,
@@ -19,27 +18,39 @@ const fan =seq.define('fan',{
         type:Sequelize.STRING,
         allowNull:false
     },
-    maker:{
-        type:Sequelize.FLOAT,
+    manufacturer:{
+        type:Sequelize.STRING,
         allowNull:false
     },location:{
         type:Sequelize.STRING,
         allowNull:false
     },num_speeds:{
-        type:Sequelize.INTEGER,
+        type:Sequelize.STRING,
         allowNull:false
     },weight:{
-        type:Sequelize.FLOAT,
+        type:Sequelize.STRING,
         allowNull:false
     },power:{
         type:Sequelize.STRING,
         allowNull:false
     },installation_date:{
-        type:Sequelize.DATE,
+        type:Sequelize.STRING,
         allowNull:false
     },userId:{
         type:Sequelize.INTEGER
+    },
+    deployment_date:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },
+    dimensions:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },maxSpeed:{
+        type:Sequelize.STRING,
+        allowNull:false
     }
+
 
 
 
