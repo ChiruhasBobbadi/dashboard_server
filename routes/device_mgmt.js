@@ -7,6 +7,8 @@ const device_mgmt = require('../controllers/device_management');
 
 router.post('/addDevice',device_mgmt.addDevice);
 
+router.post('/updateDevice',device_mgmt.updateDevice);
 
+router.post('/deleteDevice',device_mgmt.deleteDevice);
 
 module.exports = router
