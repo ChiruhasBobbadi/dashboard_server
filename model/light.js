@@ -20,7 +20,7 @@ const light =seq.define('light',{
         allowNull:false
     },
     manufacturer:{
-        type:Sequelize.FLOAT,
+        type:Sequelize.STRING,
         allowNull:false
     },location:{
         type:Sequelize.STRING,
@@ -29,7 +29,7 @@ const light =seq.define('light',{
         type:Sequelize.STRING,
         allowNull:false
     },wattage:{
-        type:Sequelize.FLOAT,
+        type:Sequelize.STRING,
         allowNull:false
     },power:{
         type:Sequelize.STRING,

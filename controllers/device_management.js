@@ -2,7 +2,7 @@ const User = require("../model/user");
 const electric_meter = require('../model/electricity_meter');
 
 const water_meter = require('../model/water_meter');
-const light = require('../')
+const light = require('../model/light');
 exports.deleteDevice = (req,res,next)=>{
 
 }
@@ -23,15 +23,13 @@ exports.addDevice = async(req,res,next)=>{
         case "fan":
 
             break;
-        case "light":
-            break;
         case "camera":
             break;
         case "light":
             await addLight(req,res,next);
             break;
         case "water_meter":
-          await  addWaterMeter(req,res,next);
+          await addWaterMeter(req,res,next);
             break;
         case "electric_meter":
            await addElectricMeter (req,res,next);
@@ -91,8 +89,8 @@ const addWaterMeter = async (req,res,next)=>{
 const addLight = async(req,res,next)=>{
     const data = req.body.data;
 
-
-    await water_meter.create({
+    console.log("light");
+    await light.create({
         user_id: req.session.userId,
         name: data.device_name,
         model:data.model,
@@ -100,11 +98,11 @@ const addLight = async(req,res,next)=>{
         location:data.location,
         manufacturer:data.manufacturer,
         power:data.power,
+        wattage:data.wattage,
         installation_date:data.installation_date,
         deployment_date:data.deployment_date,
-        item_weight:data.weight,
-        batteries_included:data.batteries_included=="yes"?true:false,
-        battery_cell_type:data.battery_cell_type
+        wattage:data.wattage,
+        illumination:data.illumination,
 
     });
     res.json({
