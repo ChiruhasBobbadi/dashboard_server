@@ -13,7 +13,7 @@ const camera_nosql = require('../model/nosql/camera');
 const electric_meter_nosql = require('../model/nosql/electric_meter');
 const water_meter_nosql = require('../model/nosql/water_meter');
 const weather_sensor_nosql = require('../model/nosql/weather_sensor');
-const {request} = require("express");
+
 
 //Fetching single device based on device id
 exports.getDevice = async(req,res,next)=>{
@@ -210,6 +210,9 @@ exports.deleteDevice = async(req,res,next)=>{
         case "electric_meter":
             await deleteElectricMeter (req,res,next);
             break;
+        case "weather_sensor":
+            await deleteWeather(req,res,next);
+            break;
     }
 
 }
@@ -266,6 +269,16 @@ const deleteCamera = async(req,res,next)=>{
     res.json({
         "status":200,
         "message":"success, camera deleted"
+    })
+}
+
+const deleteWeather = async(req,res,next)=>{
+    const data = req.body.data;
+
+    await weather_sensor.destroy({where: { id: data.id }});
+    res.json({
+        "status":200,
+        "message":"success, weather sensor deleted"
     })
 }
 
@@ -427,6 +440,31 @@ const updateCamera = async(req,res,next)=>{
     })
 }
 
+const updateWeatherSensor = async(req,res,next)=>{
+    const data = req.body.data;
+
+    await weather_sensor.update({
+        user_id: req.session.userId,
+        name: data.device_name,
+        model:data.model,
+        dimensions:data.dimensions,
+        location:data.location,
+        manufacturer:data.manufacturer,
+        installation_date:data.installation_date,
+        deployment_date:data.deployment_date,
+        running_time:data.running_time,
+        down_time:data.down_time,
+        sensor_size:data.sensor_size,
+        lens:data.lens,
+        resolution:data.resolution,
+
+
+    },{where: { id: data.id }});
+    res.json({
+        "status":200,
+        "message":"success, camera updated"
+    })
+}
 
 
 
@@ -452,6 +490,8 @@ exports.addDevice = async(req,res,next)=>{
         case "electric_meter":
            await addElectricMeter (req,res,next);
             break;
+        case "weather_sensor":
+            await addWeather(req,res,next);
     }
 }
 //todo nosql
@@ -584,8 +624,6 @@ const addFan = async(req,res,next)=>{
 
 
 
-
-
     res.json({
         "status":200,
         "message":"success, Fan added"
@@ -593,7 +631,7 @@ const addFan = async(req,res,next)=>{
 
 
 }
-//todo nosql
+
 const addCamera = async(req,res,next)=>{
 
     const data = req.body.data;
@@ -622,7 +660,9 @@ const addCamera = async(req,res,next)=>{
         power:parseInt(cameraData.power.split(" ")[0]),
         location:cameraData.location,
         status:true,
-        data:[]
+        start_time:Math.floor(Date.now() / 1000),
+        utilization:0,
+        running_time:0
     }).save()
 
 
@@ -630,6 +670,31 @@ const addCamera = async(req,res,next)=>{
     res.json({
         "status":200,
         "message":"success, camera added"
+    })
+}
+
+//todo weather nosql
+const addWeather = async(req,res,next)=>{
+    const data = req.body.data;
+
+    await weather_sensor.create({
+        user_id: req.session.userId,
+        name: data.device_name,
+        model:data.model,
+        dimensions:data.dimensions,
+        location:data.location,
+        manufacturer:data.manufacturer,
+        installation_date:data.installation_date,
+        deployment_date:data.deployment_date,
+        power:data.power,
+        temperature_range: data.temperature_range,
+        temperature_accuracy:data.temperature_accuracy
+
+    });
+
+    res.json({
+        "status":200,
+        "message":"success, weather sensor added"
     })
 }
 
