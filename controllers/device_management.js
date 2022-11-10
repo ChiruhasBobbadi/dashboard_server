@@ -179,7 +179,7 @@ const getAllCameras = async(req,res,next)=>{
 
 const getAllWeatherSensors = async(req,res,next)=>{
 
-    const data = await camera.findAll({where: {user_id: req.session.user_id}});
+    const data = await weather_sensor.findAll({where: {user_id: req.session.user_id}});
     res.json({
         "status":200,
         "data":data
