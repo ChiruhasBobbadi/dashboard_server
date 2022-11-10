@@ -23,13 +23,6 @@ const camera =seq.define('camera',{
         type:Sequelize.STRING,
         allowNull:false
     },
-    running_time: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },down_time:{
-        type: Sequelize.STRING,
-        allowNull: false
-    },
     sensor_size:{
         type: Sequelize.STRING,
         allowNull: false
@@ -50,6 +43,9 @@ const camera =seq.define('camera',{
         allowNull:false
     },
     deployment_date:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },power:{
         type:Sequelize.STRING,
         allowNull:false
     }

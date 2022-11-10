@@ -17,6 +17,17 @@ const camera = require('./model/camera');
 const ele = require('./model/electricity_meter');
 const fan = require('./model/fan');
 const light = require('./model/light');
+
+/* no sql models */
+const f = require('./model/nosql/fan');
+const c = require('./model/nosql/camera');
+const f1 = require('./model/nosql/light');
+const c1 = require('./model/nosql/water_meter');
+//todo add weather sensor
+
+
+
+
 //const sys = require('./model/system_selection');
 const water = require('./model/water_meter');
 const weather = require('./model/weather_sensor');

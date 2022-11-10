@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const  water = new Schema({
+const camera = new Schema({
 
     id:{
         type:Schema.Types.String,
@@ -16,14 +16,11 @@ const  water = new Schema({
     status:{
         type:Schema.Types.Boolean,
         required:true
-    }, data:[{
-        timestamp:{
-            type:Schema.Types.Date
-        },water_usage:{
-            type:Schema.Types.Number
-        }
+    }, activeTime:{
+        type:Schema.Types.Date,
+        required:true,
     }
 
-    ]});
+    });
 
-module.exports = mongoose.model('water_meter', water);
+module.exports = mongoose.model('cameras', camera);

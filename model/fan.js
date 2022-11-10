@@ -28,9 +28,6 @@ const fan =seq.define('fan',{
     },num_speeds:{
         type:Sequelize.STRING,
         allowNull:false
-    },weight:{
-        type:Sequelize.STRING,
-        allowNull:false
     },power:{
         type:Sequelize.STRING,
         allowNull:false
