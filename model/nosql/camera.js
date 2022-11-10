@@ -16,9 +16,15 @@ const camera = new Schema({
     status:{
         type:Schema.Types.Boolean,
         required:true
-    }, activeTime:{
-        type:Schema.Types.Date,
-        required:true,
+    }, start_time:{
+        type:Schema.Types.Number,
+        required:true
+    },utilization:{
+        type:Schema.Types.Number,
+        required:true
+    },running_time:{
+        type:Schema.Types.Number,
+        required:true
     }
 
     });

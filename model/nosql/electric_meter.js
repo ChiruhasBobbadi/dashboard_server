@@ -19,15 +19,13 @@ const  fan = new Schema({
     status:{
         type:Schema.Types.Boolean,
         required:true
-    }, data:[{
-        timestamp:{
-            type:Schema.Types.Date
-        },power:{
-            type:Schema.Types.Number
-        }
+    },
+    power:{
+        type:Schema.Types.Boolean,
+        required:true
     }
 
-    ]});
+});
 
 module.exports = mongoose.model('electric_meter', fan);
 

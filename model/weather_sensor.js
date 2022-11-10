@@ -19,8 +19,8 @@ const weather_sensor =seq.define('weather_sensor',{
         type:Sequelize.STRING,
         allowNull:false
     },
-    maker:{
-        type:Sequelize.FLOAT,
+    manufacturer:{
+        type:Sequelize.STRING,
         allowNull:false
     },
     location:{
@@ -30,18 +30,24 @@ const weather_sensor =seq.define('weather_sensor',{
         type:Sequelize.STRING,
         allowNull:false
     },temperature_accuracy:{
-        type:Sequelize.FLOAT,
+        type:Sequelize.STRING,
         allowNull:false
     },installation_date:{
-        type:Sequelize.DATE,
+        type:Sequelize.STRING,
         allowNull:false
     },deployment_date:{
-        type:Sequelize.DATE,
+        type:Sequelize.STRING,
         allowNull:false
     },power:{
         type:Sequelize.STRING,
         allowNull:false
-    },
+    },dimensions:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },user_id:{
+        type:Sequelize.STRING,
+        allowNull:false
+    }
 
 
 
