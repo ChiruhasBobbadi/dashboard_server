@@ -25,9 +25,6 @@ const  light = new Schema({
         },start_time:{
         type:Schema.Types.Number,
             required:true
-    },utilization:{
-        type:Schema.Types.Number,
-            required:true
     },running_time:{
         type:Schema.Types.Number,
             required:true

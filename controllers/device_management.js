@@ -14,7 +14,6 @@ const electric_meter_nosql = require('../model/nosql/electric_meter');
 const water_meter_nosql = require('../model/nosql/water_meter');
 const weather_sensor_nosql = require('../model/nosql/weather_sensor');
 
-
 //START Fetching single device based on device id
 exports.getDevice = async(req,res,next)=>{
 
@@ -312,6 +311,9 @@ exports.updateDevice = async(req,res,next)=>{
         case "electric_meter":
             await updateElectricMeter (req,res,next);
             break;
+        case "weather_sensor":
+            await updateWeatherSensor (req,res,next);
+            break;
     }
 
 }
@@ -354,7 +356,7 @@ const updateWaterMeter = async (req,res,next)=>{
         installation_date:data.installation_date,
         deployment_date:data.deployment_date,
         item_weight:data.weight,
-        batteries_included:data.batteries_included=="yes"?true:false,
+        batteries_included: data.batteries_included === "yes",
         battery_cell_type:data.battery_cell_type
 
     },{where: { id: data.id }});
@@ -455,17 +457,15 @@ const updateWeatherSensor = async(req,res,next)=>{
         manufacturer:data.manufacturer,
         installation_date:data.installation_date,
         deployment_date:data.deployment_date,
-        running_time:data.running_time,
-        down_time:data.down_time,
-        sensor_size:data.sensor_size,
-        lens:data.lens,
-        resolution:data.resolution,
+        power:data.power,
+        temperature_range: data.temperature_range,
+        temperature_accuracy:data.temperature_accuracy
 
 
     },{where: { id: data.id }});
     res.json({
         "status":200,
-        "message":"success, camera updated"
+        "message":"success, weather sensor updated"
     })
 }
 
@@ -500,6 +500,7 @@ exports.addDevice = async(req,res,next)=>{
             await addWeather(req,res,next);
     }
 }
+
 //todo nosql
 const addElectricMeter = async (req,res,next)=>{
     const data = req.body.data;
@@ -520,26 +521,25 @@ const addElectricMeter = async (req,res,next)=>{
 
     });
 
-    // await electric_meter_nosql({
-    //     user_id: req.session.userId,
-    //     id:electricData.id,
-    //     location:electricData.location,
-    //     power:
-    //     status:true,
-    //     data:[]
-    // }).save()
+    await electric_meter_nosql({
+        user_id: req.session.userId,
+        id:electricData.id,
+        location:electricData.location,
+        utilization:0,
+
+    }).save()
     res.json({
         "status":200,
         "message":"success, electric meter added"
     })
 }
 
-//todo nosql
+
 const addWaterMeter = async (req,res,next)=>{
     const data = req.body.data;
 
 
-    await water_meter.create({
+    const waterData = await water_meter.create({
         user_id: req.session.userId,
         name: data.device_name,
         model:data.model,
@@ -550,10 +550,18 @@ const addWaterMeter = async (req,res,next)=>{
         installation_date:data.installation_date,
         deployment_date:data.deployment_date,
         item_weight:data.weight,
-        batteries_included:data.batteries_included=="yes"?true:false,
+        batteries_included:data.batteries_included === "yes",
         battery_cell_type:data.battery_cell_type
 
     });
+
+    await water_meter_nosql({
+        user_id: req.session.userId,
+        id:waterData.id,
+        location:waterData.location,
+        utilization:0,
+    }).save()
+
     res.json({
         "status":200,
         "message":"success, water meter added"
@@ -586,7 +594,6 @@ const addLight = async(req,res,next)=>{
         location:lightData.location,
         status:true,
         start_time:Math.floor(Date.now() / 1000),
-        utilization:0,
         running_time:0
     }).save()
 
@@ -624,7 +631,6 @@ const addFan = async(req,res,next)=>{
         location:fanData.location,
         status:true,
         start_time:Math.floor(Date.now() / 1000),
-        utilization:0,
         running_time:0
     }).save()
 
@@ -667,7 +673,6 @@ const addCamera = async(req,res,next)=>{
         location:cameraData.location,
         status:true,
         start_time:Math.floor(Date.now() / 1000),
-        utilization:0,
         running_time:0
     }).save()
 
