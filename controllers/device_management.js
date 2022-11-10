@@ -13,9 +13,8 @@ const camera_nosql = require('../model/nosql/camera');
 const electric_meter_nosql = require('../model/nosql/electric_meter');
 const water_meter_nosql = require('../model/nosql/water_meter');
 const weather_sensor_nosql = require('../model/nosql/weather_sensor');
-const {request} = require("express");
 
-//Fetching single device based on device id
+//START Fetching single device based on device id
 exports.getDevice = async(req,res,next)=>{
 
     let device = req.body.type;
@@ -190,6 +189,8 @@ const getAllWeatherSensors = async(req,res,next)=>{
 
 //END Fetching all devices based on user id
 // todo deleting nosql device based on sql database deletion
+
+//START deleting single device based on device id
 exports.deleteDevice = async(req,res,next)=>{
 
     let device = req.body.type;
@@ -269,9 +270,11 @@ const deleteCamera = async(req,res,next)=>{
     })
 }
 
+//END deleting single device based on device id
 
 
 
+//START updating single device based on device id
 
 //todo updating nosql values based on sql updation
 exports.updateDevice = async(req,res,next)=>{
@@ -298,7 +301,6 @@ exports.updateDevice = async(req,res,next)=>{
     }
 
 }
-
 
 // requires the type of device, user id to which the device belongs and the device id
 const updateElectricMeter = async (req,res,next)=>{
@@ -427,9 +429,10 @@ const updateCamera = async(req,res,next)=>{
     })
 }
 
+//END updating single device based on device id
 
 
-
+//START adding single device based on device id
 
 //requires the type of device, user id to which the device belongs and the device id
 exports.addDevice = async(req,res,next)=>{
@@ -633,5 +636,6 @@ const addCamera = async(req,res,next)=>{
     })
 }
 
+//END adding single device based on device id
 
 
