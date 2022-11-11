@@ -1,4 +1,3 @@
-const User = require("../model/user");
 
 const fan_nosql = require('../model/nosql/fan');
 const light_nosql = require('../model/nosql/light');
