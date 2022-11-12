@@ -11,13 +11,13 @@ exports.changeStateToStart = async (req,res,next)=>{
     const status=true;
     switch(device){
         case "fan":
-            await alterDeviceState(req,res,next,fan_nosql,status);
+            await changeUtilizationAndState(req,res,next,fan_nosql,status);
             break;
         case "camera":
-            await alterDeviceState(req,res,next,camera_nosql,status);
+            await changeUtilizationAndState(req,res,next,camera_nosql,status);
             break;
         case "light":
-            await alterDeviceState(req,res,next,light_nosql,status);
+            await changeUtilizationAndState(req,res,next,light_nosql,status);
             break;
         case "water_meter":
             await alterDeviceState(req,res,next,water_meter_nosql,status);
@@ -33,12 +33,35 @@ exports.changeStateToStart = async (req,res,next)=>{
 }
 
 
+// for meters
 const alterDeviceState = async(req,res,next,device,status)=>{
     const data = req.body.data;
 
     await device.findOneAndUpdate({id:data.id},{status:status}).save()
 
-    console.log(req.body.type+" started");
+
+    res.json({
+
+        "status":200,
+        "message":`success, ${req.body.type} state changed to ${status}`
+
+    })
+}
+
+// for light, fan and camera
+const changeUtilizationAndState = async(req,res,next,device,status)=>{
+    const temp = req.body.data;
+
+    if(status){
+        await device.findOneAndUpdate({id:temp.id},{ status:status, start_time:Math.floor(Date.now() / 1000)}).save()
+    }else{
+        const data = device.findOne({id:temp.id});
+        const newRunningTime = data.running_time + Math.floor(Date.now() / 1000) - data.start_time;
+        await device.findOneAndUpdate({id:temp.id},{running_time: newRunningTime, status:status, start_time:0}).save()
+
+    }
+
+
 
     res.json({
 
@@ -49,19 +72,18 @@ const alterDeviceState = async(req,res,next,device,status)=>{
 }
 
 
-
 exports.changeStateToStop = async (req,res,next)=>{
     let device = req.body.type;
     const status=false;
     switch(device){
         case "fan":
-            await alterDeviceState(req,res,next,fan_nosql,status);
+            await changeUtilizationAndState(req,res,next,fan_nosql,status);
             break;
         case "camera":
-            await alterDeviceState(req,res,next,camera_nosql,status);
+            await changeUtilizationAndState(req,res,next,camera_nosql,status);
             break;
         case "light":
-            await alterDeviceState(req,res,next,light_nosql,status);
+            await changeUtilizationAndState(req,res,next,light_nosql,status);
             break;
         case "water_meter":
             await alterDeviceState(req,res,next,water_meter_nosql,status);
