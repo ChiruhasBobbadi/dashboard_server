@@ -42,3 +42,8 @@ exports.postLogin =async (req, res, next) => {
 };
 
 
+exports.logout = (req,res,next)=>{
+    req.session.destroy();
+    res.json({status:200,"message":"user logged off"});
+}
+

@@ -12,6 +12,13 @@ const camera = new Schema({
     user_id:{
         type:Schema.Types.Number,
         required:true
+    },location:{
+        type:Schema.Types.String,
+        required:true
+    },
+    power:{
+        type:Schema.Types.Number,
+        required:true
     },
     status:{
         type:Schema.Types.Boolean,
