@@ -20,7 +20,7 @@ exports.changeStateToStart = async (req,res,next)=>{
             await changeUtilizationAndState(req,res,next,light_nosql,status);
             break;
         case "water_meter":
-            await alterDeviceState(req,res,next,water_meter_nosql,status);
+            await changeUtilizationAndState(req,res,next,water_meter_nosql,status);
             break;
         case "electric_meter":
             await alterDeviceState (req,res,next,electric_meter_nosql,status);
@@ -48,7 +48,7 @@ const alterDeviceState = async(req,res,next,device,status)=>{
     })
 }
 
-// for light, fan and camera
+// for light, fan camera and water meter
 const changeUtilizationAndState = async(req,res,next,device,status)=>{
     const temp = req.body.data;
 
@@ -86,7 +86,7 @@ exports.changeStateToStop = async (req,res,next)=>{
             await changeUtilizationAndState(req,res,next,light_nosql,status);
             break;
         case "water_meter":
-            await alterDeviceState(req,res,next,water_meter_nosql,status);
+            await changeUtilizationAndState(req,res,next,water_meter_nosql,status);
             break;
         case "electric_meter":
             await alterDeviceState (req,res,next,electric_meter_nosql,status);

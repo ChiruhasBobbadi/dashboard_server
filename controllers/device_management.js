@@ -535,6 +535,7 @@ const addElectricMeter = async (req,res,next)=>{
 }
 
 
+// water meter takes a initial metric of flow, which denotes the amount of water used per minute and we store the start time.
 const addWaterMeter = async (req,res,next)=>{
     const data = req.body.data;
 
@@ -549,7 +550,7 @@ const addWaterMeter = async (req,res,next)=>{
         power:data.power,
         installation_date:data.installation_date,
         deployment_date:data.deployment_date,
-        item_weight:data.weight,
+        utilization:data.utilization,
         batteries_included:data.batteries_included === "yes",
         battery_cell_type:data.battery_cell_type
 
@@ -559,7 +560,9 @@ const addWaterMeter = async (req,res,next)=>{
         user_id: req.session.userId,
         id:waterData.id,
         location:waterData.location,
-        utilization:0,
+        metric:parseInt(data.utilization),
+        start_time:Math.floor(Date.now() / 1000),
+        utilization:0
     }).save()
 
     res.json({
@@ -603,6 +606,7 @@ const addLight = async(req,res,next)=>{
         "message":"success, Light added"
     })
 }
+
 
 const addFan = async(req,res,next)=>{
 
