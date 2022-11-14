@@ -37,7 +37,7 @@ const light =seq.define('light',{
     },installation_date:{
         type:Sequelize.STRING,
         allowNull:false
-    },user_id:{
+    },userId:{
         type:Sequelize.INTEGER,
         allowNull:false
     },dimensions:{

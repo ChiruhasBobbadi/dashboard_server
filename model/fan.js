@@ -47,7 +47,7 @@ const fan =seq.define('fan',{
     },maxSpeed:{
         type:Sequelize.STRING,
         allowNull:false
-    }
+    },
 
 
 
