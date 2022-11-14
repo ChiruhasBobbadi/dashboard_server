@@ -47,7 +47,7 @@ const water_meter =seq.define('water_meter',{
     battery_cell_type:{
         type:Sequelize.STRING,
         allowNull:false
-    },deployment_date_date:{
+    },deployment_date:{
         type:Sequelize.STRING,
         allowNull:false
     }
