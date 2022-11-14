@@ -64,7 +64,8 @@ const getWaterMeter = async (req,res,next)=>{
 
 const getLight = async(req,res,next)=>{
 
-    const data = await light.findOne({where: { id: req.body.data.id }});
+    const id =req.body.data.id;
+    const data = await light.findOne({where: { id: id}});
     res.json({
         "status":200,
         "data":data
@@ -150,7 +151,7 @@ const getAllWaterMeters = async (req,res,next)=>{
 
 const getAllLights = async(req,res,next)=>{
 
-    const data = await light.findAll({where: {user_id: req.session.user_id}});
+    const data = await light.findAll({where: {user_id: req.body.data.id}});
     res.json({
         "status":200,
         "data":data
@@ -369,8 +370,9 @@ const updateWaterMeter = async (req,res,next)=>{
 const updateLight = async(req,res,next)=>{
     const data = req.body.data;
 
-   const light_data =  await light.update({
-        user_id: req.session.userId,
+    console.log(data);
+    const light_data =  await light.update({
+        user_id: data.userId,
         name: data.device_name,
         model:data.model,
         dimensions:data.dimensions,
@@ -541,7 +543,7 @@ const addWaterMeter = async (req,res,next)=>{
 
 
     const waterData = await water_meter.create({
-        user_id: req.session.userId,
+        user_id: data.userId,
         name: data.device_name,
         model:data.model,
         dimensions:data.dimensions,
@@ -557,7 +559,7 @@ const addWaterMeter = async (req,res,next)=>{
     });
 
     await water_meter_nosql({
-        user_id: req.session.userId,
+        user_id: data.userId,
         id:waterData.id,
         location:waterData.location,
         metric:parseInt(data.utilization),
@@ -575,7 +577,7 @@ const addLight = async(req,res,next)=>{
     const data = req.body.data;
 
     const lightData = await light.create({
-        user_id: req.session.userId,
+        user_id: data.userId,
         name: data.device_name,
         model:data.model,
         dimensions:data.dimensions,
@@ -591,7 +593,7 @@ const addLight = async(req,res,next)=>{
 
 
     await light_nosql({
-        user_id: req.session.userId,
+        user_id: data.userId,
         id:lightData.id,
         power:parseInt(lightData.power.split(" ")[0]),
         location:lightData.location,
@@ -613,7 +615,7 @@ const addFan = async(req,res,next)=>{
     const data = req.body.data;
 
   const fanData =  await fan.create({
-        user_id: req.session.userId,
+        user_id: data.userId,
         name: data.device_name,
         model:data.model,
         dimensions:data.dimensions,
@@ -629,7 +631,7 @@ const addFan = async(req,res,next)=>{
 
 
     await fan_nosql({
-       user_id: req.session.userId,
+       user_id: data.userId,
        id:fanData.id,
         power:parseInt(fanData.power.split(" ")[0]),
         location:fanData.location,
@@ -653,7 +655,7 @@ const addCamera = async(req,res,next)=>{
     const data = req.body.data;
 
    const cameraData= await camera.create({
-        user_id: req.session.userId,
+        user_id: data.userId,
         name: data.device_name,
         model:data.model,
         dimensions:data.dimensions,
@@ -671,7 +673,7 @@ const addCamera = async(req,res,next)=>{
     });
 
     await camera_nosql({
-        user_id: req.session.userId,
+        user_id: data.userId,
         id:cameraData.id,
         power:parseInt(cameraData.power.split(" ")[0]),
         location:cameraData.location,
@@ -693,7 +695,7 @@ const addWeather = async(req,res,next)=>{
     const data = req.body.data;
 
     await weather_sensor.create({
-        user_id: req.session.userId,
+        user_id: data.userId,
         name: data.device_name,
         model:data.model,
         dimensions:data.dimensions,
