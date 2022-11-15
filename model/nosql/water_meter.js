@@ -13,6 +13,10 @@ const  water = new Schema({
         type:Schema.Types.Number,
         required:true
     },
+    name:{
+        type:Schema.Types.String,
+        required:true
+    },
     location:{
         type:Schema.Types.String,
         required:true

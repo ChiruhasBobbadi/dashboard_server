@@ -508,7 +508,7 @@ const addElectricMeter = async (req,res,next)=>{
     const data = req.body.data;
 
 
-   const electricData=  await electric_meter.create({
+    await electric_meter.create({
         user_id: data.userId,
         name: data.device_name,
         model:data.model,
@@ -525,8 +525,9 @@ const addElectricMeter = async (req,res,next)=>{
 
     await electric_meter_nosql({
         user_id: data.userId,
-        id:electricData.id,
-        location:electricData.location,
+        name: data.device_name,
+        id:data.id,
+        location:data.location,
         utilization:0,
 
     }).save()
@@ -542,7 +543,7 @@ const addWaterMeter = async (req,res,next)=>{
     const data = req.body.data;
 
 
-    const waterData = await water_meter.create({
+    await water_meter.create({
         user_id: data.userId,
         name: data.device_name,
         model:data.model,
@@ -557,11 +558,12 @@ const addWaterMeter = async (req,res,next)=>{
         battery_cell_type:data.battery_cell_type
 
     });
-
+//todo imp
     await water_meter_nosql({
         user_id: data.userId,
-        id:waterData.id,
-        location:waterData.location,
+        name: data.device_name,
+        id:data.id,
+        location:data.location,
         metric:parseInt(data.utilization),
         start_time:Math.floor(Date.now() / 1000),
         utilization:0
@@ -576,7 +578,7 @@ const addWaterMeter = async (req,res,next)=>{
 const addLight = async(req,res,next)=>{
     const data = req.body.data;
 
-    const lightData = await light.create({
+    await light.create({
         user_id: data.userId,
         name: data.device_name,
         model:data.model,
@@ -594,9 +596,10 @@ const addLight = async(req,res,next)=>{
 
     await light_nosql({
         user_id: data.userId,
-        id:lightData.id,
-        power:parseInt(lightData.power.split(" ")[0]),
-        location:lightData.location,
+        name: data.device_name,
+        id:data.id,
+        power:parseInt(data.power.split(" ")[0]),
+        location:data.location,
         status:true,
         start_time:Math.floor(Date.now() / 1000),
         running_time:0
@@ -614,7 +617,7 @@ const addFan = async(req,res,next)=>{
 
     const data = req.body.data;
 
-  const fanData =  await fan.create({
+    await fan.create({
         userId: data.userId,
         name: data.device_name,
         model:data.model,
@@ -632,14 +635,14 @@ const addFan = async(req,res,next)=>{
 
     await fan_nosql({
        user_id: data.userId,
-       id:fanData.id,
-        power:parseInt(fanData.power.split(" ")[0]),
-        location:fanData.location,
+       id:data.id,
+        name: data.device_name,
+        power:parseInt(data.power.split(" ")[0]),
+        location:data.location,
         status:true,
         start_time:Math.floor(Date.now() / 1000),
         running_time:0
     }).save()
-
 
 
     res.json({
@@ -654,7 +657,7 @@ const addCamera = async(req,res,next)=>{
 
     const data = req.body.data;
 
-   const cameraData= await camera.create({
+    await camera.create({
         user_id: data.userId,
         name: data.device_name,
         model:data.model,
@@ -674,9 +677,10 @@ const addCamera = async(req,res,next)=>{
 
     await camera_nosql({
         user_id: data.userId,
-        id:cameraData.id,
-        power:parseInt(cameraData.power.split(" ")[0]),
-        location:cameraData.location,
+        name: data.device_name,
+        id:data.id,
+        power:parseInt(data.power.split(" ")[0]),
+        location:data.location,
         status:true,
         start_time:Math.floor(Date.now() / 1000),
         running_time:0
@@ -708,6 +712,19 @@ const addWeather = async(req,res,next)=>{
         temperature_accuracy:data.temperature_accuracy
 
     });
+
+
+    await weather_sensor_nosql({
+        user_id: data.userId,
+        name: data.device_name,
+        id:data.id,
+        temperature:data.temperature,
+        location:data.location,
+        status:true,
+        start_time:Math.floor(Date.now() / 1000),
+        running_time:0
+    }).save()
+
 
     res.json({
         "status":200,
