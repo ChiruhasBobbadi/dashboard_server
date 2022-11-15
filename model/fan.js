@@ -35,7 +35,8 @@ const fan =seq.define('fan',{
         type:Sequelize.STRING,
         allowNull:false
     },userId:{
-        type:Sequelize.INTEGER
+        type:Sequelize.INTEGER,
+        allowNull:false
     },
     deployment_date:{
         type:Sequelize.STRING,

@@ -44,8 +44,8 @@ const weather_sensor =seq.define('weather_sensor',{
     },dimensions:{
         type:Sequelize.STRING,
         allowNull:false
-    },user_id:{
-        type:Sequelize.STRING,
+    },userId:{
+        type:Sequelize.INTEGER,
         allowNull:false
     }
 

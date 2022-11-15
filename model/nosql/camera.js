@@ -27,11 +27,11 @@ const camera = new Schema({
         type:Schema.Types.Boolean,
         required:true
     },start_time:{
-        type:Schema.Types.Date,
+        type:Schema.Types.Number,
         required:true,
     },
     running_time:{
-        type:Schema.Types.Date,
+        type:Schema.Types.Number,
         required:true,
     }
 

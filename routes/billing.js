@@ -4,8 +4,8 @@ const billing = require('../controllers/billing');
 
 /* GET home page. */
 
-router.get('/bill',billing.billing);
-router.get('/generateInvoice', billing.postLogin);
+router.post('/bill',billing.billing);
+//router.get('/generateInvoice', billing.postLogin);
 
 
 module.exports = router;

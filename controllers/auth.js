@@ -4,10 +4,10 @@ const User = require('../model/User');
 //code to add user statically
 exports.login = async (req,res,next)=>{
     await User.create({
-        firstName: "Chiruhas",
-        lastName: "Bobbadi",
-        password:"Chiruhs26",
-        email:"chiruhas.bobbadi123@gmail.com",
+        firstName: "Vineeth",
+        lastName: "Hamilpur",
+        password:"Password@123",
+        email:"vineeeth.h@sjsu.edu",
         isAdmin:false
     });
     console.log("hello");
@@ -31,7 +31,8 @@ exports.postLogin =async (req, res, next) => {
        if(records[0].password == password){
            req.session.isLoggedIn = true;
             req.session.userId = records[0].id;
-           res.json({"status":200,"message":"authorized","isAdmin":records[0].isAdmin, "userId":records[0].id});
+           res.json({"status":200,"message":"authorized","isAdmin":records[0].isAdmin, "userId":records[0].id
+                   ,name:records[0].firstName+" "+records[0].lastName});
        }else{
            res.json({"status":401,"message":"wrong password"});
        }

@@ -26,11 +26,15 @@ const  water = new Schema({
         required:true
     },
     metric:{
-        type:Schema.Types.Number,
+        type:Schema.Types.Decimal128,
     },
     running_time:{
         type:Schema.Types.Number,
-        required:true}
+        required:true},
+    start_time:{
+        type:Schema.Types.Number,
+        required:true
+    }
 
 });
 

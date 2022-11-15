@@ -34,11 +34,8 @@ const water_meter =seq.define('water_meter',{
     },item_weight:{
         type:Sequelize.STRING,
         allowNull:false
-    },user_id:{
+    },userId:{
         type:Sequelize.INTEGER,
-        allowNull:false
-    }, dimensions:{
-        type:Sequelize.STRING,
         allowNull:false
     },batteries_included:{
         type:Sequelize.BOOLEAN,
@@ -49,6 +46,10 @@ const water_meter =seq.define('water_meter',{
         allowNull:false
     },deployment_date:{
         type:Sequelize.STRING,
+        allowNull:false
+    },
+    metric:{
+        type:Sequelize.FLOAT,
         allowNull:false
     }
 
