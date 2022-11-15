@@ -8,10 +8,11 @@ const weather_sensor_nosql = require('../model/nosql/weather_sensor');
 
 exports.changeStateToStart = async (req,res,next)=>{
     let device = req.body.type;
+    const temp = req.body.data;
     const status=true;
     switch(device){
         case "fan":
-            await changeUtilizationAndState(req,res,next,fan_nosql,status);
+
             break;
         case "camera":
             await changeUtilizationAndState(req,res,next,camera_nosql,status);
@@ -37,7 +38,7 @@ exports.changeStateToStart = async (req,res,next)=>{
 const alterDeviceState = async(req,res,next,device,status)=>{
     const data = req.body.data;
 
-    await device.findOneAndUpdate({id:data.id},{status:status}).save()
+    await device.findOneAndUpdate({id:data.id},{status:status})
 
 
     res.json({
@@ -51,18 +52,24 @@ const alterDeviceState = async(req,res,next,device,status)=>{
 // for light, fan camera and water meter
 const changeUtilizationAndState = async(req,res,next,device,status)=>{
     const temp = req.body.data;
-
+    console.log(temp.id);
     if(status){
-        await device.findOneAndUpdate({id:temp.data.id},{ status:status, start_time:Math.floor(Date.now() / 1000)}).save()
+        await fan_nosql.findOneAndUpdate({id:temp.id},{ status:status, start_time:Math.floor(Date.now() / 1000)})
     }else{
-        const data = device.findOne({id:temp.data.id});
-        const newRunningTime = data.running_time + Math.floor(Date.now() / 1000) - data.start_time;
-        await device.findOneAndUpdate({id:temp.data.id},{running_time: newRunningTime, status:status, start_time:0}).save()
+
+        fan_nosql.findOne({'id':temp.id}).then(async (result)=> {
+            console.log(result);
+            const newRunningTime = result.running_time + Math.floor(Date.now() / 1000) - result.start_time;
+            await device.findOneAndUpdate({id:temp.id},{running_time: parseInt(newRunningTime), status:status, start_time:0})
+
+        }).then(err=>{
+            console.log(err);
+        });
+
+
+
 
     }
-
-
-
     res.json({
 
         "status":200,
