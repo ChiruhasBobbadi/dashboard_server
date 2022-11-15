@@ -10,6 +10,7 @@ exports.changeStateToStart = async (req,res,next)=>{
     let device = req.body.type;
     const temp = req.body.data;
     const status=true;
+    console.log(req.body);
     switch(device){
         case "fan":
             await fan_nosql.findOneAndUpdate({id:temp.id},{ status:status, start_time:Math.floor(Date.now() / 1000)})
@@ -54,9 +55,9 @@ exports.changeStateToStop = async (req,res,next)=>{
     switch(device){
         case "fan":
             fan_nosql.findOne({'id':temp.id}).then(async (result)=> {
-                console.log(result);
+
                 const newRunningTime = result.running_time + Math.floor(Date.now() / 1000) - result.start_time;
-                await device.findOneAndUpdate({id:temp.id},{running_time: parseInt(newRunningTime), status:status, start_time:0})
+                await fan_nosql.findOneAndUpdate({id:temp.id},{running_time: newRunningTime, status:status, start_time:0})
 
             }).then(err=>{
                 console.log(err);
@@ -64,9 +65,9 @@ exports.changeStateToStop = async (req,res,next)=>{
             break;
         case "camera":
             camera_nosql.findOne({'id':temp.id}).then(async (result)=> {
-                console.log(result);
+
                 const newRunningTime = result.running_time + Math.floor(Date.now() / 1000) - result.start_time;
-                await device.findOneAndUpdate({id:temp.id},{running_time: parseInt(newRunningTime), status:status, start_time:0})
+                await camera_nosql.findOneAndUpdate({id:temp.id},{running_time: newRunningTime, status:status, start_time:0})
 
             }).then(err=>{
                 console.log(err);
@@ -74,9 +75,9 @@ exports.changeStateToStop = async (req,res,next)=>{
             break;
         case "light":
             light_nosql.findOne({'id':temp.id}).then(async (result)=> {
-                console.log(result);
+
                 const newRunningTime = result.running_time + Math.floor(Date.now() / 1000) - result.start_time;
-                await device.findOneAndUpdate({id:temp.id},{running_time: parseInt(newRunningTime), status:status, start_time:0})
+                await light_nosql.findOneAndUpdate({id:temp.id},{running_time: newRunningTime, status:status, start_time:0})
 
             }).then(err=>{
                 console.log(err);
@@ -84,9 +85,9 @@ exports.changeStateToStop = async (req,res,next)=>{
             break;
         case "water_meter":
             water_meter_nosql.findOne({'id':temp.id}).then(async (result)=> {
-                console.log(result);
+
                 const newRunningTime = result.running_time + Math.floor(Date.now() / 1000) - result.start_time;
-                await device.findOneAndUpdate({id:temp.id},{running_time: parseInt(newRunningTime), status:status, start_time:0})
+                await water_meter_nosql.findOneAndUpdate({id:temp.id},{running_time: newRunningTime, status:status, start_time:0})
 
             }).then(err=>{
                 console.log(err);
