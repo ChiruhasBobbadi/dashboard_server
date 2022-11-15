@@ -52,6 +52,8 @@ exports.changeStateToStop = async (req,res,next)=>{
     let device = req.body.type;
     const temp = req.body.data;
     const status=false;
+
+    console.log(req.body);
     switch(device){
         case "fan":
             fan_nosql.findOne({'id':temp.id}).then(async (result)=> {

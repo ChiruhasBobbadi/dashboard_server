@@ -33,12 +33,12 @@ const getAllDeviceMetrics = async (req,res,next)=>{
         let data ={
             "status":200,
             "message":"success, All devices metrics are fetched",
-            "fanMetrics" : fanMetrics,
-            "lightMetrics" : lightMetrics,
+            "fanMetrics" : 50000,
+            "lightMetrics" : 0,
             "weatherSensorMetrics" : weatherSensorMetrics,
             "cameraMetrics" : cameraMetrics,
             "electricityMeterMetrics" : electricityMeterMetrics,
-            "waterMeterMetrics" : waterMeterMetrics
+            "waterMeterMetrics" : 20
         };
     console.log(data);
 
