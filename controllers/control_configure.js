@@ -12,97 +12,100 @@ exports.changeStateToStart = async (req,res,next)=>{
     const status=true;
     switch(device){
         case "fan":
-
+            await fan_nosql.findOneAndUpdate({id:temp.id},{ status:status, start_time:Math.floor(Date.now() / 1000)})
             break;
         case "camera":
-            await changeUtilizationAndState(req,res,next,camera_nosql,status);
+            await camera_nosql.findOneAndUpdate({id:temp.id},{ status:status, start_time:Math.floor(Date.now() / 1000)})
             break;
         case "light":
-            await changeUtilizationAndState(req,res,next,light_nosql,status);
+            await light_nosql.findOneAndUpdate({id:temp.id},{ status:status, start_time:Math.floor(Date.now() / 1000)})
             break;
         case "water_meter":
-            await changeUtilizationAndState(req,res,next,water_meter_nosql,status);
+            await water_meter_nosql.findOneAndUpdate({id:temp.id},{ status:status, start_time:Math.floor(Date.now() / 1000)})
             break;
         case "electric_meter":
-            await alterDeviceState (req,res,next,electric_meter_nosql,status);
+            await electric_meter_nosql.findOneAndUpdate({id:temp.id},{status:status})
             break;
         case "weather_sensor":
-            await alterDeviceState (req,res,next,weather_sensor_nosql,status);
+            await weather_sensor_nosql.findOneAndUpdate({id:temp.id},{status:status})
             break;
 
     }
-}
-
-
-// for meters
-const alterDeviceState = async(req,res,next,device,status)=>{
-    const data = req.body.data;
-
-    await device.findOneAndUpdate({id:data.id},{status:status})
 
 
     res.json({
 
         "status":200,
-        "message":`success, ${req.body.type} state changed to ${status}`
+        "message":`success, ${req.body.type} state changed to true`
 
     })
 }
 
-// for light, fan camera and water meter
-const changeUtilizationAndState = async(req,res,next,device,status)=>{
-    const temp = req.body.data;
-    console.log(temp.id);
-    if(status){
-        await fan_nosql.findOneAndUpdate({id:temp.id},{ status:status, start_time:Math.floor(Date.now() / 1000)})
-    }else{
-
-        fan_nosql.findOne({'id':temp.id}).then(async (result)=> {
-            console.log(result);
-            const newRunningTime = result.running_time + Math.floor(Date.now() / 1000) - result.start_time;
-            await device.findOneAndUpdate({id:temp.id},{running_time: parseInt(newRunningTime), status:status, start_time:0})
-
-        }).then(err=>{
-            console.log(err);
-        });
 
 
 
 
-    }
-    res.json({
-
-        "status":200,
-        "message":`success, ${req.body.type} state changed to ${status}`
-
-    })
-}
 
 
 exports.changeStateToStop = async (req,res,next)=>{
     let device = req.body.type;
+    const temp = req.body.data;
     const status=false;
     switch(device){
         case "fan":
-            await changeUtilizationAndState(req,res,next,fan_nosql,status);
+            fan_nosql.findOne({'id':temp.id}).then(async (result)=> {
+                console.log(result);
+                const newRunningTime = result.running_time + Math.floor(Date.now() / 1000) - result.start_time;
+                await device.findOneAndUpdate({id:temp.id},{running_time: parseInt(newRunningTime), status:status, start_time:0})
+
+            }).then(err=>{
+                console.log(err);
+            });
             break;
         case "camera":
-            await changeUtilizationAndState(req,res,next,camera_nosql,status);
+            camera_nosql.findOne({'id':temp.id}).then(async (result)=> {
+                console.log(result);
+                const newRunningTime = result.running_time + Math.floor(Date.now() / 1000) - result.start_time;
+                await device.findOneAndUpdate({id:temp.id},{running_time: parseInt(newRunningTime), status:status, start_time:0})
+
+            }).then(err=>{
+                console.log(err);
+            });
             break;
         case "light":
-            await changeUtilizationAndState(req,res,next,light_nosql,status);
+            light_nosql.findOne({'id':temp.id}).then(async (result)=> {
+                console.log(result);
+                const newRunningTime = result.running_time + Math.floor(Date.now() / 1000) - result.start_time;
+                await device.findOneAndUpdate({id:temp.id},{running_time: parseInt(newRunningTime), status:status, start_time:0})
+
+            }).then(err=>{
+                console.log(err);
+            });
             break;
         case "water_meter":
-            await changeUtilizationAndState(req,res,next,water_meter_nosql,status);
+            water_meter_nosql.findOne({'id':temp.id}).then(async (result)=> {
+                console.log(result);
+                const newRunningTime = result.running_time + Math.floor(Date.now() / 1000) - result.start_time;
+                await device.findOneAndUpdate({id:temp.id},{running_time: parseInt(newRunningTime), status:status, start_time:0})
+
+            }).then(err=>{
+                console.log(err);
+            });
             break;
         case "electric_meter":
-            await alterDeviceState (req,res,next,electric_meter_nosql,status);
+            await electric_meter_nosql.findOneAndUpdate({id:temp.id},{status:status})
             break;
         case "weather_sensor":
-            await alterDeviceState (req,res,next,weather_sensor_nosql,status);
+            await weather_sensor_nosql.findOneAndUpdate({id:temp.id},{status:status})
             break;
 
     }
+    res.json({
+
+        "status":200,
+        "message":`success, ${req.body.type} state changed to false`
+
+    })
 }
 
 
