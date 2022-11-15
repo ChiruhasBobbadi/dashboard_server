@@ -53,11 +53,11 @@ const changeUtilizationAndState = async(req,res,next,device,status)=>{
     const temp = req.body.data;
 
     if(status){
-        await device.findOneAndUpdate({id:temp.id},{ status:status, start_time:Math.floor(Date.now() / 1000)}).save()
+        await device.findOneAndUpdate({id:temp.data.id},{ status:status, start_time:Math.floor(Date.now() / 1000)}).save()
     }else{
-        const data = device.findOne({id:temp.id});
+        const data = device.findOne({id:temp.data.id});
         const newRunningTime = data.running_time + Math.floor(Date.now() / 1000) - data.start_time;
-        await device.findOneAndUpdate({id:temp.id},{running_time: newRunningTime, status:status, start_time:0}).save()
+        await device.findOneAndUpdate({id:temp.data.id},{running_time: newRunningTime, status:status, start_time:0}).save()
 
     }
 
@@ -126,8 +126,9 @@ exports.getAllDevices = async(req,res,next)=>{
     }
 }
 
+// by userId
 const getDevices = async(req,res,next,device)=>{
-    const data = await device.find({user_id:req.session.userId});
+    const data = await device.find({user_id:req.body.data.id});
 
     res.json({
         "status":200,
