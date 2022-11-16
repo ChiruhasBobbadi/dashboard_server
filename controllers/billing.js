@@ -67,7 +67,7 @@ exports.billing = async (req,res,next)=>{
 
     const response = {
         status:200,
-        waterUtilization : waterUtilization,
+        waterUtilization : totalWaterUtilization,
         electricityUtilization : totalPower,
         waterCost:totalCostWater,
         electricityCost:totalCostPower,
