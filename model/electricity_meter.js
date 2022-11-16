@@ -43,6 +43,9 @@ const electricity_meter =seq.define('electricity_meter',{
     measurement_accuracy:{
         type:Sequelize.STRING,
         allowNull:false
+    },userId:{
+        type:Sequelize.INTEGER,
+        allowNull:false
     }
 
 

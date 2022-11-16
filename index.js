@@ -7,6 +7,10 @@ const mongoose = require('mongoose');
 const sequelize = require('./util/database')
 const device_mgmt = require('./routes/device_mgmt')
 const auth = require('./routes/auth');
+const billing = require('./routes/billing');
+const home = require('./routes/home');
+const control_configure = require('./routes/control_configure');
+
 const multer = require('multer');
 const flash = require('connect-flash');
 const bodyParser = require('body-parser');
@@ -62,7 +66,9 @@ app.use((req,res,next)=>{
 
 app.use(auth);
 app.use(device_mgmt);
-
+app.use(control_configure);
+app.use(billing);
+app.use(home);
 app.use('/', (req, res) => {
     res.send("Hello friend")
 });

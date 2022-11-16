@@ -6,6 +6,6 @@ const configure = require('../controllers/control_configure');
 
 router.post('/startDevice',configure.changeStateToStart);
 router.post('/stopDevice', configure.changeStateToStop);
-router.get('/allDevices',configure.getAllDevices)
+router.post('/getAllDevices',configure.getAllDevices)
 
 module.exports = router;

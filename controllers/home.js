@@ -5,6 +5,7 @@ const camera_nosql = require('../model/nosql/camera');
 const electric_meter_nosql = require('../model/nosql/electric_meter');
 const water_meter_nosql = require('../model/nosql/water_meter');
 const weather_sensor_nosql = require('../model/nosql/weather_sensor');
+const water_nosql = require("../model/nosql/water_meter");
 
 
 
@@ -14,7 +15,8 @@ exports.getHome = async (req,res,next)=>{
 
 const getAllDeviceMetrics = async (req,res,next)=>{
 
-        const user_id = req.session.user_id;
+    console.log(req.body);
+    const user_id = req.body.userId;
 
         const fanMetrics = await getFanMetrics(user_id);
 
@@ -28,7 +30,7 @@ const getAllDeviceMetrics = async (req,res,next)=>{
 
         const waterMeterMetrics = await getWaterMeterMetrics(user_id);
 
-        res.json({
+        let data ={
             "status":200,
             "message":"success, All devices metrics are fetched",
             "fanMetrics" : fanMetrics,
@@ -37,73 +39,77 @@ const getAllDeviceMetrics = async (req,res,next)=>{
             "cameraMetrics" : cameraMetrics,
             "electricityMeterMetrics" : electricityMeterMetrics,
             "waterMeterMetrics" : waterMeterMetrics
-        })
+        };
+    console.log(data);
+
+    res.json(data)
 
     }
 
 
     async function getFanMetrics(user_id) {
-        const fans = await fan_nosql.find(user_id);
+        const fans = await fan_nosql.find({user_id:user_id});
 
         let fanMetrics = 0;
 
-        for (const fansKey in fans) {
-            fanMetrics += ( Math.floor(Date.now() / (1000*60*60)) - fansKey.start_time + fansKey.running_time ) * fansKey.power;
+        for (const fansKey of fans) {
+            fanMetrics += (( Math.floor(Date.now() / (1000)) - fansKey.start_time + fansKey.running_time )/3600 )* fansKey.power;
         }
         return fanMetrics;
     }
 
     async function getLightMetrics(user_id) {
-        const lights = await light_nosql.find(user_id);
+        const lights = await light_nosql.find({user_id:user_id});
 
         let lightMetrics = 0;
 
-        for (const lightsKey in lights) {
-            lightMetrics += ( Math.floor(Date.now() / (1000*60*60)) - lightsKey.start_time + lightsKey.running_time ) * lightsKey.power;
+        for (const lightsKey of lights) {
+            lightMetrics += (( Math.floor(Date.now() / (1000)) - lightsKey.start_time + lightsKey.running_time )/3600 )* lightsKey.power;
         }
         return lightMetrics;
     }
 
     async function getWeatherSensorMetrics(user_id) {
-        const weatherSensors = await weather_sensor_nosql.find(user_id);
+        const weatherSensors = await weather_sensor_nosql.find({user_id:user_id});
 
         let weatherSensorMetrics = 0;
 
-        for (const weatherSensorsKey in weatherSensors) {
-            weatherSensorMetrics += ( Math.floor(Date.now() / (1000*60*60)) - weatherSensorsKey.start_time + weatherSensorsKey.running_time ) * weatherSensorsKey.power;
+        for (const weatherSensorsKey of weatherSensors) {
+            weatherSensorMetrics += (( Math.floor(Date.now() / (1000)) - weatherSensorsKey.start_time + weatherSensorsKey.running_time )/3600) * weatherSensorsKey.power;
         }
         return weatherSensorMetrics;
     }
 
     async function getCameraMetrics(user_id) {
-        const cameras = await camera_nosql.find(user_id);
+        const cameras = await camera_nosql.find({user_id:user_id});
 
         let cameraMetrics = 0;
 
-        for (const camerasKey in cameras) {
-            cameraMetrics += ( Math.floor(Date.now() / (1000*60*60)) - camerasKey.start_time + camerasKey.running_time ) * camerasKey.power;
+        for (const camerasKey of cameras) {
+            cameraMetrics += (( Math.floor(Date.now() / (1000)) - camerasKey.start_time + camerasKey.running_time )/3600) * camerasKey.power;
         }
         return cameraMetrics;
     }
 
     async function getElectricityMeterMetrics(user_id) {
-        const electricityMeters = await electric_meter_nosql.find(user_id);
+        const electricityMeters = await electric_meter_nosql.find({user_id:user_id});
 
         let electricityMeterMetrics = 0;
 
-        for (const electricityMetersKey in electricityMeters) {
+        for (const electricityMetersKey of electricityMeters) {
             electricityMeterMetrics += electricityMetersKey.utilization;
         }
         return electricityMeterMetrics;
     }
 
     async function getWaterMeterMetrics(user_id) {
-        const waterMeters = await water_meter_nosql.find(user_id);
+        const waterUtilization = await water_nosql.find({user_id: user_id});
+        let totalWaterUtilization=0;
 
-        let waterMeterMetrics = 0;
+        for(let water of waterUtilization){
+            let running_time = water.running_time+ Math.floor(Date.now() / 1000) - water.start_time;
+            totalWaterUtilization +=water.metric*(running_time);
 
-        for (const waterMetersKey in waterMeters) {
-            waterMeterMetrics += waterMetersKey.utilization;
         }
-        return waterMeterMetrics;
+        return totalWaterUtilization;
     }

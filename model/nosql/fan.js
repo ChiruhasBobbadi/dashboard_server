@@ -12,6 +12,9 @@ const  fan = new Schema({
     user_id:{
         type:Schema.Types.Number,
         required:true
+    },name:{
+        type:Schema.Types.String,
+        required:true
     }, power:{
         type:Schema.Types.Number,
         required:true

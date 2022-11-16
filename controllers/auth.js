@@ -6,8 +6,8 @@ exports.login = async (req,res,next)=>{
     await User.create({
         firstName: "Chiruhas",
         lastName: "Bobbadi",
-        password:"Chiruhs26",
-        email:"chiruhas.bobbadi123@gmail.com",
+        password:"Password@123",
+        email:"chiruhas.bobbadi@sjsu.edu",
         isAdmin:false
     });
     console.log("hello");
@@ -31,7 +31,8 @@ exports.postLogin =async (req, res, next) => {
        if(records[0].password == password){
            req.session.isLoggedIn = true;
             req.session.userId = records[0].id;
-           res.json({"status":200,"message":"authorized","isAdmin":records[0].isAdmin, "userId":records[0].id});
+           res.json({"status":200,"message":"authorized","isAdmin":records[0].isAdmin, "userId":records[0].id
+                   ,name:records[0].firstName+" "+records[0].lastName});
        }else{
            res.json({"status":401,"message":"wrong password"});
        }
@@ -41,4 +42,11 @@ exports.postLogin =async (req, res, next) => {
 
 };
 
+
+exports.logout = (req,res,next)=>{
+
+    console.log("logout reached");
+    req.session.destroy();
+    res.json({status:200,"message":"user logged off"});
+}
 

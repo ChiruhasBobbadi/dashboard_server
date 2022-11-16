@@ -32,7 +32,7 @@ const camera =seq.define('camera',{
     },resolution:{
         type: Sequelize.STRING,
         allowNull: false
-    },user_id:{
+    },userId:{
         type: Sequelize.INTEGER,
         allowNull: false
     },location:{
