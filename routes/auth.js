@@ -4,8 +4,12 @@ const auth = require('../controllers/auth');
 
 /* GET home page. */
 
-router.get('/login',auth.login);
+router.post('/addUser',auth.login);
+router.post('/deleterUser',auth.deleteUser);
 router.post('/login', auth.postLogin);
 router.post('/logout',auth.logout);
+
+
+router.get('/getAllUsers', auth.getAllUsers);
 
 module.exports = router;

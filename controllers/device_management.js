@@ -131,7 +131,7 @@ exports.getAllDevices = async(req,res,next)=>{
 
 const getAllElectricMeters = async (req,res,next)=> {
 
-    const data = await electric_meter.findAll({where: {userId: req.body.data.id}});
+    const data = await electric_meter.findAll({where: {userId: req.body.data.userId}});
     console.log(data);
     res.json({
         "status": 200,
@@ -332,7 +332,6 @@ const updateElectricMeter = async (req,res,next)=>{
         userId: data.userId,
         name: data.device_name,
         model:data.model,
-        dimensions:data.dimensions,
         location:data.location,
         amperage_capacity:data.amperage_capacity,
         power:data.power,
@@ -340,6 +339,7 @@ const updateElectricMeter = async (req,res,next)=>{
         deployment_date:data.deployment_date,
         installation_method:data.installation_method,
         measurement_accuracy:data.measurement_accuracy,
+        manufacturer:data.manufacturer
 
     }, {where: { id: data.id }} );
     res.json({
@@ -364,8 +364,8 @@ const updateWaterMeter = async (req,res,next)=>{
         deployment_date:data.deployment_date,
         item_weight:data.weight,
         batteries_included: data.batteries_included === "yes",
-        battery_cell_type:data.battery_cell_type
-
+        battery_cell_type:data.battery_cell_type,
+        metric:data.metric
     },{where: { id: data.id }});
     res.json({
         "status":200,
@@ -432,11 +432,11 @@ const updateCamera = async(req,res,next)=>{
     const data = req.body.data;
     console.log(data);
 
-    await camera.update({
+    await camera.update(
+        {
         userId: data.userId,
         name: data.device_name,
         model:data.model,
-        dimensions:data.dimensions,
         location:data.location,
         manufacturer:data.manufacturer,
         installation_date:data.installation_date,
@@ -446,8 +446,7 @@ const updateCamera = async(req,res,next)=>{
         sensor_size:data.sensor_size,
         lens:data.lens,
         resolution:data.resolution,
-
-
+            power:data.power
     },{where: { id: data.id }});
     res.json({
         "status":200,
@@ -473,6 +472,7 @@ const updateWeatherSensor = async(req,res,next)=>{
 
 
     },{where: { id: data.id }});
+
     res.json({
         "status":200,
         "message":"success, weather sensor updated"
@@ -515,12 +515,11 @@ exports.addDevice = async(req,res,next)=>{
 const addElectricMeter = async (req,res,next)=>{
     const data = req.body.data;
 
-
+    console.log(data);
     await electric_meter.create({
-        user_id: data.userId,
+        userId: data.userId,
         name: data.device_name,
         model:data.model,
-        dimensions:data.dimensions,
         location:data.location,
         amperage_capacity:data.amperage_capacity,
         power:data.power,
@@ -528,7 +527,7 @@ const addElectricMeter = async (req,res,next)=>{
         deployment_date:data.deployment_date,
         installation_method:data.installation_method,
         measurement_accuracy:data.measurement_accuracy,
-
+        manufacturer:data.manufacturer
     });
 
     await electric_meter_nosql({
@@ -536,7 +535,9 @@ const addElectricMeter = async (req,res,next)=>{
         name: data.device_name,
         id:data.id,
         location:data.location,
+        start_time:Math.floor(Date.now() / 1000),
         utilization:0,
+        status:true
 
     }).save()
     res.json({
@@ -675,7 +676,6 @@ const addCamera = async(req,res,next)=>{
         userId: data.userId,
         name: data.device_name,
         model:data.model,
-        dimensions:data.dimensions,
         location:data.location,
         manufacturer:data.manufacturer,
         installation_date:data.installation_date,

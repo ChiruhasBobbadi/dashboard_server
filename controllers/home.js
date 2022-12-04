@@ -53,7 +53,12 @@ const getAllDeviceMetrics = async (req,res,next)=>{
         let fanMetrics = 0;
 
         for (const fansKey of fans) {
-            fanMetrics += (( Math.floor(Date.now() / (1000)) - fansKey.start_time + fansKey.running_time )/3600 )* fansKey.power;
+            if(fansKey.status){
+                fanMetrics += (( Math.floor(Date.now() / (1000)) - fansKey.start_time + fansKey.running_time )/3600 )* fansKey.power;
+            }else{
+                fanMetrics += ((fansKey.running_time )/3600)* fansKey.power;
+            }
+
         }
         return fanMetrics;
     }
@@ -64,7 +69,10 @@ const getAllDeviceMetrics = async (req,res,next)=>{
         let lightMetrics = 0;
 
         for (const lightsKey of lights) {
+            if(lightKey.status)
             lightMetrics += (( Math.floor(Date.now() / (1000)) - lightsKey.start_time + lightsKey.running_time )/3600 )* lightsKey.power;
+            else
+                lightMetrics += ((lightKey.running_time )/3600)* lightKey.power;
         }
         return lightMetrics;
     }
@@ -75,7 +83,11 @@ const getAllDeviceMetrics = async (req,res,next)=>{
         let weatherSensorMetrics = 0;
 
         for (const weatherSensorsKey of weatherSensors) {
+            if(weatherSensorsKey.status)
             weatherSensorMetrics += (( Math.floor(Date.now() / (1000)) - weatherSensorsKey.start_time + weatherSensorsKey.running_time )/3600) * weatherSensorsKey.power;
+            else
+                weatherSensorMetrics += ((weatherSensorsKey.running_time )/3600)* weatherSensorsKey.power;
+
         }
         return weatherSensorMetrics;
     }
@@ -86,7 +98,10 @@ const getAllDeviceMetrics = async (req,res,next)=>{
         let cameraMetrics = 0;
 
         for (const camerasKey of cameras) {
+            if(camerasKey.status)
             cameraMetrics += (( Math.floor(Date.now() / (1000)) - camerasKey.start_time + camerasKey.running_time )/3600) * camerasKey.power;
+            else
+                cameraMetrics += ((camerasKey.running_time )/3600)* camerasKey.power;
         }
         return cameraMetrics;
     }
@@ -107,9 +122,10 @@ const getAllDeviceMetrics = async (req,res,next)=>{
         let totalWaterUtilization=0;
 
         for(let water of waterUtilization){
-            let running_time = water.running_time+ Math.floor(Date.now() / 1000) - water.start_time;
-            totalWaterUtilization +=water.metric*(running_time);
-
+            if(water.status)
+            totalWaterUtilization += (water.running_time+ Math.floor(Date.now() / 1000) - water.start_time)*(water.metric);
+            else
+                totalWaterUtilization += (water.running_time)*(water.metric);
         }
         return totalWaterUtilization;
     }
