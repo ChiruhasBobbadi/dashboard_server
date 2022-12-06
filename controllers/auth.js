@@ -1,5 +1,5 @@
 
-const User = require('../model/User');
+const User = require('../model/user');
 
 //code to add user statically
 exports.login = async (req,res,next)=>{
