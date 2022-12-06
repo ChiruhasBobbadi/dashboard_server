@@ -4,14 +4,24 @@ const User = require('../model/User');
 //code to add user statically
 exports.login = async (req,res,next)=>{
     await User.create({
-        firstName: "Chiruhas",
-        lastName: "Bobbadi",
-        password:"Password@123",
-        email:"chiruhas.bobbadi@sjsu.edu",
-        isAdmin:false
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        password:req.body.password,
+        email:req.body.email,
+        isAdmin:req.body.isAdmin
     });
-    console.log("hello");
+    res.json({'status':200});
 }
+
+exports.deleteUser = async (req,res,next)=> {
+    const userId = req.body.userId;
+
+    await User.destroy({where: {id: userId}})
+    res.json({'status':200});
+}
+
+
+
 
 // verify auth
 exports.postLogin =async (req, res, next) => {
@@ -41,6 +51,22 @@ exports.postLogin =async (req, res, next) => {
 
 
 };
+
+
+exports.getAllUsers = async (req,res,next)=>{
+    const records =  await User.findAll({
+        where: { isAdmin: false }
+    });
+
+
+   let arr = records.map(el=>{
+       return {id:el.id,firstName:el.firstName,lastName:el.lastName,
+           email:el.email,
+           dateCreated : el.createdAt}
+   })
+
+    res.json({"status":200,"data":arr});
+}
 
 
 exports.logout = (req,res,next)=>{
