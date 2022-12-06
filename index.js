@@ -46,7 +46,7 @@ let SERVER_PORT = 4000;
 const app = express();
 
 const store = new MongoDBStore({
-    uri:'mongodb://localhost:27017/dashboard' ,
+    uri:'mongodb+srv://ch:password_123@cluster0.ahucb7m.mongodb.net/dashboard' ,
     collection: 'sessions'
 });
 app.use(session({secret: 'my secret', resave: false, saveUninitialized: false, store: store}));
