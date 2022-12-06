@@ -79,8 +79,8 @@ app.use('/', (req, res) => {
 
 
 sequelize.sync().then(res=>{
-    console.log("sql synced");
-    mongoose.connect('mongodb://localhost:27017/dashboard')
+    //console.log("sql synced");
+    mongoose.connect('mongodb+srv://ch:password_123@cluster0.ahucb7m.mongodb.net/dashboard')
         .then(result => {
             if (result) {
 
