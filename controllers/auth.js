@@ -4,10 +4,10 @@ const User = require('../model/User');
 //code to add user statically
 exports.login = async (req,res,next)=>{
     await User.create({
-        firstName: "Chiruhas",
-        lastName: "Bobbadi",
+        firstName: "J",
+        lastName: "K",
         password:"Password@123",
-        email:"chiruhas.bobbadi@sjsu.edu",
+        email:"jaswanth.karangulai@sjsu.edu",
         isAdmin:false
     });
     console.log("hello");
