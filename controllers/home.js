@@ -15,7 +15,7 @@ exports.getHome = async (req,res,next)=>{
 
 const getAllDeviceMetrics = async (req,res,next)=>{
 
-    console.log(req.body);
+    //console.log(req.body);
     const user_id = req.body.userId;
 
         const fanMetrics = await getFanMetrics(user_id);
@@ -40,7 +40,7 @@ const getAllDeviceMetrics = async (req,res,next)=>{
             "electricityMeterMetrics" : electricityMeterMetrics,
             "waterMeterMetrics" : waterMeterMetrics
         };
-    console.log(data);
+    //console.log(data);
 
     res.json(data)
 

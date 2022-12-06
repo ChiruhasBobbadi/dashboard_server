@@ -10,7 +10,7 @@ exports.changeStateToStart = async (req,res,next)=>{
     let device = req.body.type;
     const temp = req.body.data;
     const status=true;
-    console.log(req.body);
+    //console.log(req.body);
     switch(device){
         case "fan":
             await fan_nosql.findOneAndUpdate({id:temp.id},{ status:status, start_time:Math.floor(Date.now() / 1000)})
@@ -53,7 +53,7 @@ exports.changeStateToStop = async (req,res,next)=>{
     const temp = req.body.data;
     const status=false;
 
-    console.log(req.body);
+    //console.log(req.body);
     switch(device){
         case "fan":
             fan_nosql.findOne({'id':temp.id}).then(async (result)=> {
@@ -62,7 +62,7 @@ exports.changeStateToStop = async (req,res,next)=>{
                 await fan_nosql.findOneAndUpdate({id:temp.id},{running_time: newRunningTime, status:status, start_time:0})
 
             }).then(err=>{
-                console.log(err);
+                //console.log(err);
             });
             break;
         case "camera":
@@ -72,7 +72,7 @@ exports.changeStateToStop = async (req,res,next)=>{
                 await camera_nosql.findOneAndUpdate({id:temp.id},{running_time: newRunningTime, status:status, start_time:0})
 
             }).then(err=>{
-                console.log(err);
+                //console.log(err);
             });
             break;
         case "light":
@@ -82,7 +82,7 @@ exports.changeStateToStop = async (req,res,next)=>{
                 await light_nosql.findOneAndUpdate({id:temp.id},{running_time: newRunningTime, status:status, start_time:0})
 
             }).then(err=>{
-                console.log(err);
+                //console.log(err);
             });
             break;
         case "water_meter":
@@ -92,7 +92,7 @@ exports.changeStateToStop = async (req,res,next)=>{
                 await water_meter_nosql.findOneAndUpdate({id:temp.id},{running_time: newRunningTime, status:status, start_time:0})
 
             }).then(err=>{
-                console.log(err);
+                //console.log(err);
             });
             break;
         case "electric_meter":

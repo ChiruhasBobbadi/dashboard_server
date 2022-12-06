@@ -51,7 +51,7 @@ exports.billing = async (req,res,next)=>{
         name: user[0].dataValues.firstName+ " "+user[0].dataValues.lastName
     }
 
-    console.log(response);
+    //console.log(response);
 
     res.json(response);
 }

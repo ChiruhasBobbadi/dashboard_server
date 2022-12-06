@@ -13,6 +13,18 @@ exports.login = async (req,res,next)=>{
     res.json({'status':200});
 }
 
+
+exports.adminSignup = async (req,res,next)=>{
+    await User.create({
+        firstName: "admin",
+        lastName: "",
+        password:"admin@123",
+        email:"admin@sjsu.edu",
+        isAdmin:true
+    });
+    res.json({'status':200});
+}
+
 exports.deleteUser = async (req,res,next)=> {
     const userId = req.body.userId;
 
@@ -71,7 +83,7 @@ exports.getAllUsers = async (req,res,next)=>{
 
 exports.logout = (req,res,next)=>{
 
-    console.log("logout reached");
+    //console.log("logout reached");
     req.session.destroy();
     res.json({status:200,"message":"user logged off"});
 }

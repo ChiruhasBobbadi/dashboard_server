@@ -36,7 +36,7 @@ exports.getDeviceInformation = async (req,res,next)=>{
 const getElectricMeters = async (req,res,next)=>{
 
     const data =  await electric_meter.findAll({where: { id:req.session.userId}} );
-    console.log(data);
+    //console.log(data);
     res.json({
         "status":200,
         "data":data
