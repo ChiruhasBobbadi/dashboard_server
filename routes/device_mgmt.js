@@ -14,6 +14,8 @@ router.post('/updateDevice',device_mgmt.updateDevice);
 
 router.post('/deleteDevice',device_mgmt.deleteDevice);
 
-//router.get('/devices',device_mgmt.getDevices)
+router.post('/allDevices',device_mgmt.getAllDevices);
+
+router.post('/device',device_mgmt.getDevice);
 
 module.exports = router

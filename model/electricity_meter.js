@@ -30,9 +30,6 @@ const electricity_meter =seq.define('electricity_meter',{
     },installation_date:{
         type:Sequelize.STRING,
         allowNull:false
-    },dimensions:{
-        type:Sequelize.STRING,
-        allowNull:false
     },deployment_date: {
         type:Sequelize.STRING,
         allowNull:false
@@ -41,6 +38,13 @@ const electricity_meter =seq.define('electricity_meter',{
         allowNull:false
     },
     measurement_accuracy:{
+        type:Sequelize.STRING,
+        allowNull:false
+    },userId:{
+        type:Sequelize.INTEGER,
+        allowNull:false
+    },
+    manufacturer:{
         type:Sequelize.STRING,
         allowNull:false
     }

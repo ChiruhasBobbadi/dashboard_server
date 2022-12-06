@@ -7,6 +7,11 @@ const mongoose = require('mongoose');
 const sequelize = require('./util/database')
 const device_mgmt = require('./routes/device_mgmt')
 const auth = require('./routes/auth');
+const billing = require('./routes/billing');
+const home = require('./routes/home');
+const control_configure = require('./routes/control_configure');
+const service = require('./routes/service');
+
 const multer = require('multer');
 const flash = require('connect-flash');
 const bodyParser = require('body-parser');
@@ -62,7 +67,10 @@ app.use((req,res,next)=>{
 
 app.use(auth);
 app.use(device_mgmt);
-
+app.use(control_configure);
+app.use(billing);
+app.use(home);
+app.use(service);
 app.use('/', (req, res) => {
     res.send("Hello friend")
 });
@@ -71,8 +79,8 @@ app.use('/', (req, res) => {
 
 
 sequelize.sync().then(res=>{
-    console.log("sql synced");
-    mongoose.connect('mongodb://localhost:27017/dashboard')
+    //console.log("sql synced");
+    mongoose.connect('mongodb+srv://ch:password_123@cluster0.ahucb7m.mongodb.net/dashboard')
         .then(result => {
             if (result) {
 

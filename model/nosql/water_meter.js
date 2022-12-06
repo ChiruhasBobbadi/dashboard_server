@@ -13,6 +13,10 @@ const  water = new Schema({
         type:Schema.Types.Number,
         required:true
     },
+    name:{
+        type:Schema.Types.String,
+        required:true
+    },
     location:{
         type:Schema.Types.String,
         required:true
@@ -20,8 +24,18 @@ const  water = new Schema({
     status:{
         type:Schema.Types.Boolean,
         required:true
-    }, utilization:{
+    },
+    metric:{
+        type:Schema.Types.Decimal128,
+    },
+    running_time:{
         type:Schema.Types.Number,
-    }});
+        required:true},
+    start_time:{
+        type:Schema.Types.Number,
+        required:true
+    }
+
+});
 
 module.exports = mongoose.model('water_meter', water);
