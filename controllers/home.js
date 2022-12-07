@@ -17,6 +17,8 @@ const getAllDeviceMetrics = async (req,res,next)=>{
 
     //console.log(req.body);
     const user_id = req.body.userId;
+    
+     console.log(user_id);
 
         const fanMetrics = await getFanMetrics(user_id);
 
